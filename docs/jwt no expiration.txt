@@ -1,0 +1,4 @@
+just set JWT_TTL option to null in config/jwt.php:
+JWT_TTL=null
+& remove 'exp' from required_claims:
+'required_claims' => ['iss', 'iat', 'nbf', 'sub', 'jti'],

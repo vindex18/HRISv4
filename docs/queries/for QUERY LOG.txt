@@ -1,0 +1,2 @@
+    //DB::connection()->enableQueryLog();
+//$queries = DB::getQueryLog(); var_dump($queries); die("End of Query");

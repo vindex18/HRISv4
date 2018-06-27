@@ -1,0 +1,27 @@
+Employee
+- Create [done]
+- Read [done]
+- Update []
+- Delete [done]
+
+All Employee
+- Read [Done]
+
+Authentication
+- (/)
+
+Attendance EMP ALL
+- Read 
+- Delete
+
+Attendance EMP
+- Create []
+- Read [done]
+- Update []
+- Delete (done)
+
+Attendance Type (For Confirmation)
+
+Overtime day scope
+
+composer dump-autoload -o

@@ -1,0 +1,2 @@
+SELECT IFNULL(a.datetime, 'wala') as meron, c.datefield, a.datetime, c.type, a.type_id
+FROM calendar c LEFT JOIN attendance a ON DATE(a.datetime) = c.datefield AND a.type_id = 1 AND a.emp_id = 1 WHERE c.datefield BETWEEN '2018-06-01' AND '2018-06-26' AND c.type IN (0, 1, 2, 3, 4) ORDER BY c.datefield DESC

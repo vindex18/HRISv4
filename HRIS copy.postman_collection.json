@@ -1,0 +1,542 @@
+{
+	"info": {
+		"_postman_id": "f0b4d9a2-49d7-4ca3-8573-0a131ff5b005",
+		"name": "HRIS copy",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get ALL EMP Rec",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1Mjk1NjE4ODEsImV4cCI6MTUzNDgzMjI4MSwianRpIjoic21tVGdXeXl3NEFEa0R1TjBsUVZHcmdaeVVXRTE0N1d3aFdvSHdvUzZYQyIsInN1YiI6Im9SeUs1dlhoWEFrNlA4RmZsWm9GIiwiaXNzIjoiZ1IyM1pvMUVYMGs4YlBPZCIsInN1YmQiOiJNUSUzRCUzRCJ9.dJhk2PqmoIwHGFX4k4Ru_Olxkcuc20swCsRrqDjZgrg"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://192.168.1.106/hris/public/employees",
+					"protocol": "http",
+					"host": [
+						"192",
+						"168",
+						"1",
+						"106"
+					],
+					"path": [
+						"hris",
+						"public",
+						"employees"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Employee Record",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1Mjk3ODM4ODUsImV4cCI6MTUzNTA1NDI4NSwianRpIjoiWTVBZWR3bWVWZ05wNDlWbjlvcFdQWk92eDJTeVZ2WWJQb2VuS0xGMmtKaiIsInN1YmQiOiJCbTAySWhMMjRpNGpPRWVWaUlSIiwiaXNzIjoiZ1IyM1pvMUVYMGs4YlBPZCIsInNpZCI6Ik13PT0ifQ.ECcJ2gZamuVVhwBggNxsM6kOEn1TiHOlctwQgQ18d_U"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost/hris-api/public/employees/employeerecord/MQ%3D%3D",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"hris-api",
+						"public",
+						"employees",
+						"employeerecord",
+						"MQ%3D%3D"
+					]
+				},
+				"description": "Getting Employee Record"
+			},
+			"response": []
+		},
+		{
+			"name": "Validating Employee Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "email",
+							"value": "neil@invento.io",
+							"type": "text",
+							"description": "neil@invento.io"
+						},
+						{
+							"key": "password",
+							"value": "qwerty",
+							"type": "text",
+							"description": "qwerty"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost/hris-api/public/authorization/validatecredentials",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"hris-api",
+						"public",
+						"authorization",
+						"validatecredentials"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Adding Employee Record",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1Mjk4ODk4NjAsImV4cCI6MTUzNTE2MDI2MCwianRpIjoiUW8yNXVPT3ZsWXMwUUU5ZW8xNjJZZmJTYlVac0s3VFRGTkwwdkhibGY5ViIsInN1YmQiOiJvUnlLNXZYaFhBazZQOEZmbFpvRiIsImlzcyI6ImdSMjNabzFFWDBrOGJQT2QiLCJzaWQiOiJNUT09In0.4qHiQJwSjzuzzZ4rti7xpn4CpgBMZN8tATzPQIgTrVc"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "firstname",
+							"value": "Camille",
+							"type": "text"
+						},
+						{
+							"key": "lastname",
+							"value": "Cuisia",
+							"type": "text"
+						},
+						{
+							"key": "phone",
+							"value": "0945-362-7267",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "camille@invento.io",
+							"type": "text"
+						},
+						{
+							"key": "address",
+							"value": "Las Piñas",
+							"type": "text"
+						},
+						{
+							"key": "postitle",
+							"value": "Web Designer",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "qwerty",
+							"type": "text"
+						},
+						{
+							"key": "middlename",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "datejoined",
+							"value": "2018-06-04",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost/hris-api/public/employees",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"hris-api",
+						"public",
+						"employees"
+					]
+				},
+				"description": "Adding Employee Record"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Employee",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1Mjk1NjE4ODEsImV4cCI6MTUzNDgzMjI4MSwianRpIjoic21tVGdXeXl3NEFEa0R1TjBsUVZHcmdaeVVXRTE0N1d3aFdvSHdvUzZYQyIsInN1YiI6Im9SeUs1dlhoWEFrNlA4RmZsWm9GIiwiaXNzIjoiZ1IyM1pvMUVYMGs4YlBPZCIsInN1YmQiOiJNUSUzRCUzRCJ9.dJhk2PqmoIwHGFX4k4Ru_Olxkcuc20swCsRrqDjZgrg"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost/hris/public/employees/employeerecord/Mg%3D%3D",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"hris",
+						"public",
+						"employees",
+						"employeerecord",
+						"Mg%3D%3D"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add EMP Attendance",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1Mjk3ODM4ODUsImV4cCI6MTUzNTA1NDI4NSwianRpIjoiWTVBZWR3bWVWZ05wNDlWbjlvcFdQWk92eDJTeVZ2WWJQb2VuS0xGMmtKaiIsInN1YmQiOiJCbTAySWhMMjRpNGpPRWVWaUlSIiwiaXNzIjoiZ1IyM1pvMUVYMGs4YlBPZCIsInNpZCI6Ik13PT0ifQ.ECcJ2gZamuVVhwBggNxsM6kOEn1TiHOlctwQgQ18d_U"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "id\n",
+							"value": "MQ%3D%3D",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "tag",
+							"value": "4",
+							"type": "text"
+						},
+						{
+							"key": "datetime",
+							"value": "2018-06-18 13:00:00",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost/hris-api/public/attendance/employee",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"hris-api",
+						"public",
+						"attendance",
+						"employee"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Attendance All EMP",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1Mjk5OTg3MDIsImV4cCI6MTUzNTI2OTEwMiwianRpIjoiaENOUjUwVEE4WTZ2VlRiZWFRYWhmSWs0QzcxSEV0RVc1ajVqeFBuTW9YUiIsInN1YmQiOiJvUnlLNXZYaFhBazZQOEZmbFpvRiIsImlzcyI6ImdSMjNabzFFWDBrOGJQT2QiLCJzaWQiOiJNUT09In0.Yk-nHQoRwvuOUbXi-7EV_RfCSrXDg1Xyvd5S9pYzMOY"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost/hris-api/public/attendance/allemployee/+/+/1",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"hris-api",
+						"public",
+						"attendance",
+						"allemployee",
+						"+",
+						"+",
+						"1"
+					]
+				},
+				"description": "Get All Attendance"
+			},
+			"response": []
+		},
+		{
+			"name": "Attendance EMP",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1Mjk4ODk4NjAsImV4cCI6MTUzNTE2MDI2MCwianRpIjoiUW8yNXVPT3ZsWXMwUUU5ZW8xNjJZZmJTYlVac0s3VFRGTkwwdkhibGY5ViIsInN1YmQiOiJvUnlLNXZYaFhBazZQOEZmbFpvRiIsImlzcyI6ImdSMjNabzFFWDBrOGJQT2QiLCJzaWQiOiJNUT09In0.4qHiQJwSjzuzzZ4rti7xpn4CpgBMZN8tATzPQIgTrVc"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost/hris-api/public/attendance/employee/+/+/Kw%3D%3D",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"hris-api",
+						"public",
+						"attendance",
+						"employee",
+						"+",
+						"+",
+						"Kw%3D%3D"
+					]
+				},
+				"description": "attendance/getallemployeeattendance"
+			},
+			"response": []
+		},
+		{
+			"name": "Attendance EMP Summary",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1Mjk5Nzc3MTgsImV4cCI6MTUzNTI0ODExOCwianRpIjoiNnYzanZxbHd1Y2FHRUlScFl2dFdKVUdhTTZpMFI5VVhuN1F0TFFHbHhYSCIsInN1YmQiOiJvUnlLNXZYaFhBazZQOEZmbFpvRiIsImlzcyI6ImdSMjNabzFFWDBrOGJQT2QiLCJzaWQiOiJNUT09In0.9eTrGvyFsN9BpdslgqoexWun85X_UV2eWl-8nVWARyA"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost/hris-api/public/attendance/employee-summary/1527782400/1530374400/MQ%3D%3D",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"hris-api",
+						"public",
+						"attendance",
+						"employee-summary",
+						"1527782400",
+						"1530374400",
+						"MQ%3D%3D"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Attendance EMP",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1Mjk1NjE4ODEsImV4cCI6MTUzNDgzMjI4MSwianRpIjoic21tVGdXeXl3NEFEa0R1TjBsUVZHcmdaeVVXRTE0N1d3aFdvSHdvUzZYQyIsInN1YiI6Im9SeUs1dlhoWEFrNlA4RmZsWm9GIiwiaXNzIjoiZ1IyM1pvMUVYMGs4YlBPZCIsInN1YmQiOiJNUSUzRCUzRCJ9.dJhk2PqmoIwHGFX4k4Ru_Olxkcuc20swCsRrqDjZgrg"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost/hris/public/attendance/employee/MQ%3D%3D",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"hris",
+						"public",
+						"attendance",
+						"employee",
+						"MQ%3D%3D"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Excel All EMP Attendance",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1Mjk1NjE4ODEsImV4cCI6MTUzNDgzMjI4MSwianRpIjoic21tVGdXeXl3NEFEa0R1TjBsUVZHcmdaeVVXRTE0N1d3aFdvSHdvUzZYQyIsInN1YiI6Im9SeUs1dlhoWEFrNlA4RmZsWm9GIiwiaXNzIjoiZ1IyM1pvMUVYMGs4YlBPZCIsInN1YmQiOiJNUSUzRCUzRCJ9.dJhk2PqmoIwHGFX4k4Ru_Olxkcuc20swCsRrqDjZgrg"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost/hris/public/reports/attendance/attendancereport/toexcel/1528646400/1528732800/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"hris",
+						"public",
+						"reports",
+						"attendance",
+						"attendancereport",
+						"toexcel",
+						"1528646400",
+						"1528732800",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All AttendanceType",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1Mjk1NjE4ODEsImV4cCI6MTUzNDgzMjI4MSwianRpIjoic21tVGdXeXl3NEFEa0R1TjBsUVZHcmdaeVVXRTE0N1d3aFdvSHdvUzZYQyIsInN1YiI6Im9SeUs1dlhoWEFrNlA4RmZsWm9GIiwiaXNzIjoiZ1IyM1pvMUVYMGs4YlBPZCIsInN1YmQiOiJNUSUzRCUzRCJ9.dJhk2PqmoIwHGFX4k4Ru_Olxkcuc20swCsRrqDjZgrg"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost/hris/public/attendancetype",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"hris",
+						"public",
+						"attendancetype"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Root Testing",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1Mjk0Nzc3MjksImV4cCI6MTUzNDc0ODEyOSwianRpIjoieTVXdm5CQXBBWEhaUVVwY2VoNHloVThXQ3dyOVVvRTdmZzdVMU5JR2ZCaiIsInN1YiI6Im5laWxAaW52ZW50by5pbyIsImlzcyI6ImdSMjNabzFFWDBrOGJQT2QifQ.ScERaPruXp4DXPqM6N9wobUXoFjEWJsuFX1g4hE1WxA"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost/hris/public/",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"hris",
+						"public",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Time Log Status",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1Mjk4ODk0NzgsImV4cCI6MTUzNTE1OTg3OCwianRpIjoiNmFXc2xiTkxVeTZaNUZ2Z0dmcG1iQ1JxazlWYWpLSHlTWUJhbTRKeEREOCIsInN1YmQiOiJvUnlLNXZYaFhBazZQOEZmbFpvRiIsImlzcyI6ImdSMjNabzFFWDBrOGJQT2QiLCJzaWQiOiJNUT09In0.3alNMudLPKk8hyLtuwznpqJJm1fxCF_PNn9duZb-3vI"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost/hris-api/public/attendance/timelogstatus",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"hris-api",
+						"public",
+						"attendance",
+						"timelogstatus"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "For Absences",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1Mjk5OTg3MDIsImV4cCI6MTUzNTI2OTEwMiwianRpIjoiaENOUjUwVEE4WTZ2VlRiZWFRYWhmSWs0QzcxSEV0RVc1ajVqeFBuTW9YUiIsInN1YmQiOiJvUnlLNXZYaFhBazZQOEZmbFpvRiIsImlzcyI6ImdSMjNabzFFWDBrOGJQT2QiLCJzaWQiOiJNUT09In0.Yk-nHQoRwvuOUbXi-7EV_RfCSrXDg1Xyvd5S9pYzMOY"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "localhost/hris-api/public/attendance/absences/1527782400/1530374400/Kw%3D%3D",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"hris-api",
+						"public",
+						"attendance",
+						"absences",
+						"1527782400",
+						"1530374400",
+						"Kw%3D%3D"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

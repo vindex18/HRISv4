@@ -1,0 +1,24 @@
+DROP PROCEDURE IF EXISTS fill_calendar;
+
+DROP TABLE IF EXISTS calendar;
+
+CREATE TABLE calendar (datefield DATE, type TINYINT(1)) Engine=InnoDB;
+
+DELIMITER |
+
+CREATE PROCEDURE fill_calendar(start_date DATE, end_date DATE)
+BEGIN
+  DECLARE crt_date DATE;
+  SET crt_date=start_date;
+  WHILE crt_date < end_date DO
+    INSERT INTO calendar VALUES(crt_date, WEEKDAY(crt_date));
+    SET crt_date = ADDDATE(crt_date, INTERVAL 1 DAY);
+  END WHILE;
+END |
+DELIMITER ;
+
+TRUNCATE TABLE calendar;
+
+OPTIMIZE TABLE calendar;
+
+CALL fill_calendar('2010-01-01', '2030-12-31');

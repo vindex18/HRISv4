@@ -1,0 +1,17 @@
+import { verifyToken, decodeToken } from '../../config/Token';
+
+ if(localStorage && localStorage.getItem('token') && localStorage.getItem('token') !== undefined){ 
+
+ }
+        else{
+            this.setState({isLoggedIn:false});
+        }
+
+
+
+        if (!this.state.isLoggedIn) {
+            return <Redirect to={"/"} />;
+        };
+
+
+ import { Redirect } from 'react-router-dom';

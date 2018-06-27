@@ -1,0 +1,360 @@
+import React, { Component } from 'react';
+import { Link, NavLink, Redirect } from 'react-router-dom';
+import { createMuiTheme } from '@material-ui/core/styles';
+import indigo from '@material-ui/core/colors/indigo';
+import image from "../../assets/img/bgLogin.jpg";
+import logo from "../../assets/img/avatar.jpg";
+import ConfirmDialog  from './ConfirmDialog';
+import { sendLog, getTimeCardConfig }from '../../config/Api';
+import { decodeToken  } from '../../config/Token';
+import Notif from './Notif';
+
+import { 
+    Card, Button, CardContent,
+    Avatar, Typography
+} from '@material-ui/core/';
+
+class TimeCard extends Component {
+    state = {
+        firstname: "",
+        middlename: "",
+        lastname: "",
+        email: "",
+        postitle: "",
+        sid: "",
+        isLoggedIn: true,
+        auth: false,
+        lastpunch: "",
+        lastpunchdesc: "",
+        lastpunchdt: "",
+        nextpunch:"",
+        nextpunchdesc: "",
+        confirmDiaLog: "",
+        tccont:"",
+        msg: "",
+        showMsg: ""
+    }
+
+    handleChange = (e) => {
+        let target = e.target;
+        let value = target.value;
+        let name = target.name;
+        
+        this.setState({
+            [name]: value
+        })        
+    }
+
+    setNameAfterValidate = (props) => {
+        this.setState({props})
+    }
+
+    handleLogout = (e) => {
+        e.preventDefault();
+        localStorage.clear();
+        this.setState({ isLoggedIn: false });
+    }
+
+    clearConfirmDialog = (e) => {
+        //this.setState({msg:<Notif msg={this.state.msg}/>})
+        this.setState({confirmDiaLog:''});
+    }
+
+    showConfirmTimeLog = (e) => {    
+        e.preventDefault(); 
+        console.log("EXECUTING!");
+        console.log(this.state.confirmDiaLog);
+        if(this.state.confirmDiaLog){
+            console.log("Clearing");
+            this.setState({confirmDiaLog:''});
+        }else{
+            console.log("CALLING");
+            this.setState({confirmDiaLog: 
+                <ConfirmDialog 
+                clear={(e)=>this.clearConfirmDialog(e)}
+                send={(e) =>this.handleTimeLog(e)}
+                tag={this.state.nextpunch} 
+                desc={this.state.nextpunchdesc}/>
+            });
+        } 
+    }
+
+    handleTimeLog = (e, tag) => {        
+        e.preventDefault();   
+        this.setState({msg:''});
+        console.log("Start of Log");
+        // const logstat = sendLog(this.state.nextpunch); //Working
+        const logstat = sendLog(tag);
+        logstat.then(response => {
+            console.log("FINISHED!"); 
+            //console.log(this.state.nextpunch+ " --- " +response.log.log.last_punch);
+            console.log(response);
+            console.log("END OF FINISHED!");
+            console.log("SHOWINNNNNNNNNNGGGGGGGGGGGGGGGGG!");
+            this.setState({
+                confirmDiaLog:"",
+                lastpunch: response.log.log.last_punch, //response.last_punch,
+                lastpunchdesc: response.log.log.lastpunch_desc,
+                lastpunchdt: response.log.log.lastpunch_dt,
+                nextpunch:response.log.log.next_punch,
+                nextpunchdesc: response.log.log.nextpunch_desc,   
+                msg: <Notif msg={response.msg} />,
+                showMsg: response.msg
+            });
+         
+            console.log("SHOWINNNNNNNNNNGGGGGGGGGGGGGGGGG!");
+        });
+        console.log("End of Log...");
+    }
+
+    componentWillMount(){
+        console.log("WILL MOUNT TIME CARD: "+this.state);
+        if(localStorage && localStorage.getItem('token')){
+            console.log("I HAVE TOKEN IN TIME CARD!");
+            this.setState({auth: decodeToken(this.state)});   
+            const timedata = getTimeCardConfig(this.state);
+  
+            timedata.then(response => {
+                console.log("THIS IS FOR THE TIME CARD STATE!!");
+                console.log(response);
+                console.log("THIS IS FOR THE TIME CARD STATE!!");
+                this.setState({
+                    lastpunch: response.last_punch,
+                    lastpunchdesc: response.lastpunch_desc,
+                    lastpunchdt: response.lastpunch_dt,
+                    nextpunch:response.next_punch,
+                    nextpunchdesc: response.nextpunch_desc,
+                });
+                console.log(response.lastpunch_desc);
+                if(response.last_punch)
+                    this.setState({showMsg:"Your Last Log ("+response.lastpunch_desc+") at "+response.lastpunch_dt});
+                    //Update Time Card Component
+                //Temp
+
+                const theme = createMuiTheme({
+                    palette: {
+                      primary: indigo,
+                    },
+                });
+                
+                if(response.last_punch==1){ //last TI
+                    this.setState({
+                        tccont:<li style={{marginBottom: "5%", marginLeft: "-25%",}}>
+                        <Button style={{position: "relative", top: "50px", left: "15%", height: "50px", width: "185px", color: theme.palette.getContrastText("#A0446A"), backgroundColor: "#A0446A", '&:hover': { backgroundColor: "#A0446A", },}} variant="contained" color="secondary" onClick={(e) => this.showConfirmTimeLog(e, 2)}>
+                        {this.state.nextpunchdesc}</Button>
+                        <Button style={{position: "relative", top: "50px", left: "15%", height: "50px", width: "185px", color: theme.palette.getContrastText("#A0446A"), backgroundColor: "#A0446A", '&:hover': { backgroundColor: "#A0446A", },}} variant="contained" color="secondary" onClick={(e) => this.showConfirmTimeLog(e, 4)}>
+                        {"Time-out"}</Button>
+                        </li>
+                    })
+                }else if(response.last_punch==2){ //last BO
+                    this.setState({
+                        tccont:<li style={{marginBottom: "5%", marginLeft: "-25%",}}>
+                        <Button style={{position: "relative", top: "50px", left: "15%", height: "50px", width: "185px", color: theme.palette.getContrastText("#A0446A"), backgroundColor: "#A0446A", '&:hover': { backgroundColor: "#A0446A", },}} variant="contained" color="secondary" onClick={(e) => this.showConfirmTimeLog(e, 3)}>
+                        {this.state.nextpunchdesc}</Button>
+                        <Button style={{position: "relative", top: "50px", left: "15%", height: "50px", width: "185px", color: theme.palette.getContrastText("#A0446A"), backgroundColor: "#A0446A", '&:hover': { backgroundColor: "#A0446A", },}} variant="contained" color="secondary" onClick={(e) => this.showConfirmTimeLog(e, 4)}>
+                        {"Time-out"}</Button>
+                        </li>
+                    })
+                }else if(response.last_punch==3){
+                    this.setState({
+                        tccont:<li style={{marginBottom: "5%", marginLeft: "-25%",}}>
+                        <Button style={{position: "relative", top: "50px", left: "15%", height: "50px", width: "185px", color: theme.palette.getContrastText("#A0446A"), backgroundColor: "#A0446A", '&:hover': { backgroundColor: "#A0446A", },}} variant="contained" color="secondary" onClick={(e) => this.showConfirmTimeLog(e, 2)}>
+                        {"Break-Out"}</Button>
+                        <Button style={{position: "relative", top: "50px", left: "15%", height: "50px", width: "185px", color: theme.palette.getContrastText("#A0446A"), backgroundColor: "#A0446A", '&:hover': { backgroundColor: "#A0446A", },}} variant="contained" color="secondary" onClick={(e) => this.showConfirmTimeLog(e, 4)}>
+                        {"Time-out"}</Button>
+                        </li>
+                    })
+                }else if(response.last_punch==4){
+                    this.setState({
+                        tccont: <li style={{marginBottom: "5%"}}>
+                        <Button style={{position: "relative", top: "50px", left: "15%", height: "50px", width: "185px", color: theme.palette.getContrastText("#A0446A"), backgroundColor: "#A0446A", '&:hover': { backgroundColor: "#A0446A", },}} variant="contained" color="secondary" onClick={(e) => this.showConfirmTimeLog(e, 1)}>
+                            {this.state.nextpunchdesc}</Button>
+                        </li>
+                    })
+                }else{
+                    this.setState({
+                        tccont: <li style={{marginBottom: "5%"}}>
+                        <Button style={{position: "relative", top: "50px", left: "15%", height: "50px", width: "185px", color: theme.palette.getContrastText("#A0446A"), backgroundColor: "#A0446A", '&:hover': { backgroundColor: "#A0446A", },}} variant="contained" color="secondary" onClick={(e) => this.showConfirmTimeLog(e, 1)}>
+                            {"Time-In"}</Button>
+                        </li>
+                    })
+                }
+                //Temp
+            });
+            
+            console.log(this.state);         
+        }
+        else{
+            console.log("I DONT HAVE TOKEN IN TIME CARD!");
+            this.setState({auth: false});        
+        }
+    }
+
+    render(){
+        const theme = createMuiTheme({
+            palette: {
+              primary: indigo,
+            },
+        });
+        
+        const styles = {
+            root: {
+                flexGrow: 1,
+            },
+            container: {
+                display: 'flex',
+                flexWrap: 'wrap',
+            },
+            textField: {
+                opacity: ".9",
+                "&:before": {
+                    opacity: "1",
+                },
+                width: "80%",
+                backgroundColor: "transparent",
+                border: "none",
+                color: "white",
+                outline: "none",                
+                fontSize: "1em",
+                fontWeight: 300,
+                paddingBottom: "10px",
+                marginTop: "0px",
+                marginLeft: "10%"
+            },
+            menu: {
+                width: 200,
+            },
+            card: {
+                borderRadius: 30,
+                opacity: "0.9",
+                width: 565,
+                height: 683,
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                marginRight: "-50%",
+                transform: "translate(-50%, -50%)",
+            },
+            media: {      
+                height: 0,
+                paddingTop: '56.25%', // 16:9
+            },
+              
+            pageHeader: {
+                flex: 1,
+                minHeight: "100vh",
+                maxHeight: "100vh",
+                height: "100% !important",
+                display: "inherit",
+                position: "relative",
+                margin: "0",
+                padding: "0",
+                border: "0",
+                alignItems: "center",
+                "&:before": {
+                    background: "rgba(0, 0, 0, 0.5)"
+                },
+                "&:before,&:after": {
+                    position: "absolute",
+                    zIndex: "1",
+                    width: "100%",
+                    height: "100%",
+                    display: "block",
+                    left: "0",
+                    top: "0",
+                    content: '""'
+                },
+                backgroundImage: "url(" + image + ")",
+                backgroundSize: "cover",
+                backgroundPosition: "top center",
+                overflow: "hidden",
+            },            
+            inputIconsColor: {
+                color: "#495057",
+            },
+            divider: {                
+                marginBottom: "-50px",
+                marginTop: "20px",
+                textAlign: "center",
+                fontFamily: "SegoeUI, Segoe UI",
+                textTransform: "uppercase",
+                fontWeight: 400,
+              },
+            cardImgTop: {
+                width: "100%",
+                borderTopLeftRadius: "calc(.25rem - 1px)",
+                borderTopRightRadius: "calc(.25rem - 1px)"
+            },
+            cardFooter: {
+                paddingTop: "0rem",
+                border: "0",
+                borderRadius: "6px",
+                justifyContent: "center !important"
+            },
+            buttonInfo: {
+                
+                position: "relative",    
+                top: "50px",        
+                left: "15%",
+                height: "50px",
+                width: "185px",
+            },
+
+            avatar: {
+                width: 240,
+                height: 240,
+            }
+        };
+
+        if (!this.state.isLoggedIn) {
+            return <Redirect to={"/"} />;
+        };
+
+        if (!this.state.auth) {
+            return <Redirect to={"/"} />;
+        };
+
+        return (
+            <div style={styles.pageHeader}>
+               {this.state.msg}
+                <div>
+                    {this.state.confirmDiaLog}
+                    <Card style={styles.card}>       
+                        <div style={{display: 'flex', justifyContent: 'center', marginTop: "100px",}}>
+                            <Avatar alt="Logo" src={logo} style={styles.avatar} />
+                        </div>
+                        <div style={styles.divider}>
+                        <Typography variant="display1" style={{fontSize:"145%", paddingBottom:"5px"}} >{this.state.firstname} {this.state.middlename} {this.state.lastname}</Typography>
+                        <Typography variant="body1" >{this.state.postitle}</Typography>
+                        <Typography variant="body2">  {this.state.showMsg}</Typography>
+                        </div>
+                        <CardContent>
+                            <ul style={{marginLeft: "13%", listStyleType: "none"}}>
+                            {this.state.tccont}
+                            {/* <li style={{marginBottom: "5%"}}>
+                            <Button style={{position: "relative", top: "50px", left: "15%", height: "50px", width: "185px", color: theme.palette.getContrastText("#A0446A"), backgroundColor: "#A0446A", '&:hover': { backgroundColor: "#A0446A", },}} variant="contained" color="secondary" onClick={(e) => this.showConfirmTimeLog(e)}>
+                                    {this.state.nextpunchdesc}</Button>
+                                { <li style={{marginBottom: "5%", marginLeft: "-25%",}}>
+                                    <Button style={{position: "relative", top: "50px", left: "15%", height: "50px", width: "185px", color: theme.palette.getContrastText("#A0446A"), backgroundColor: "#A0446A", '&:hover': { backgroundColor: "#A0446A", },}} variant="contained" color="secondary" onClick={(e) => this.showConfirmTimeLog(e)}>
+                                    {this.state.nextpunchdesc}</Button>
+                                    <Button style={{position: "relative", top: "50px", left: "15%", height: "50px", width: "185px", color: theme.palette.getContrastText("#A0446A"), backgroundColor: "#A0446A", '&:hover': { backgroundColor: "#A0446A", },}} variant="contained" color="secondary" onClick={(e) => this.showConfirmTimeLog(e)}>
+                                    {this.state.nextpunchdesc}</Button>
+                                </li> }
+                            </li> */}
+                                <li>
+                                <Link to="/" style={{ textDecoration: 'none' }}><Button style={styles.buttonInfo} variant="outlined"> Dashboard </Button></Link> </li>
+                                <li>
+                                <NavLink to="/" style={{position: "relative", top: "60px", left: "31%", textTransform: "uppercase", textDecoration: 'none', }} onClick={this.handleLogout}>
+                                    <Typography variant="caption">Logout</Typography>
+                                </NavLink> 
+                                </li>
+                            </ul>
+                        </CardContent>
+                    </Card>
+                </div> 
+            </div>         
+        )
+    }
+}
+
+export default TimeCard;

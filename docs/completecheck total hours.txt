@@ -1,0 +1,26 @@
+echo "<u>Complete Record</u><br><br>"; die();
+            $sum = new DateTime('00:00');
+            $total = clone $sum;
+            
+            for($c=0;$c<count($datetime);$c++){
+                $f = new DateTime($datetime[$c]);
+                echo date('M d, Y g:i A', strtotime($datetime[$c]))." - ".$presets1[$c]."<br>"; //." - ".$presets[$c]."<br>"
+                if($c!=3){ //Don't Include Lunch Breaks
+                    if(array_key_exists($c+1,$datetime))
+                    {
+                        $t = new DateTime($datetime[$c+1]);
+                        $diff = date_diff($f, $t);
+                        //echo $diff->format('%y Years %m Months %d Days %h Hours %i Minutes %s Seconds')."<br>";
+                        $diffx[$c] = $diff;
+                        $total->add($diffx[$c]);
+                    }
+                }
+            }
+            //echo "<br><br>----------TIME DIFF---------------------<br>";
+            echo "<br>Total Hours: ".$total->diff($sum)->format('%h Hr %i Min %s Sec'); //%y Years %m Months %d Days 
+            return $total->diff($sum)->format('%h Hours %i Minutes %s Seconds');
+            //echo "<br>".date('Y-m-j', strtotime('3 weekdays')); die(); I can use this function
+            //echo "<br>Total Hours: ".$total->diff($sum)->format('%y Years %m Months %d Days %h Hours %i Minutes %s Seconds');
+            
+            //Total Amount for break - 30 minutes 
+            //Total Amount for Lunchbreak - 1 Hour
