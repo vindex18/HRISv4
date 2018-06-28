@@ -24,19 +24,21 @@ class AttendanceService {
         $data = AttendanceDao::getAllEmployeeAttendance($dtfrom, $dtto, $accstat);
         $status = (!is_null($data)) ? true:  false;   
         $newdata = array();
-        foreach($data as $k){
-            $newdata[] = array(
-                            'firstname' => $k->first_name,
-                            'lastname' => $k->last_name,
-                            'is_active' => $k->is_active,
-                            'position' => $k->pos_title,
-                            'max' => (!is_null($k->max)) ? date('M d, Y g:i:s A', strtotime($k->max)) : null,
-                            'id' => $k->emp_id,
-                            'code' => $k->code
 
-            );
-        }
-        //die();
+        // foreach($data as $k){
+        //     $newdata[] = array(
+        //                     'firstname' => $k->first_name,
+        //                     'lastname' => $k->last_name,
+        //                     'is_active' => $k->is_active,
+        //                     'position' => $k->pos_title,
+        //                     'max' => (!is_null($k->max)) ? date('M d, Y g:i:s A', strtotime($k->max)) : null,
+        //                     'id' => $k->id,
+        //                     'code' => $k->code,
+        //                     'description' => $k->description
+
+        //     );
+        // }
+        
         return array('msg' => $data, 'status' => $status);
     }
 
@@ -83,8 +85,8 @@ class AttendanceService {
     }
 
     function getEmployeeAttendance($req, $res){ 
-      
-        $emp_id = (base64_decode(urldecode($req->getAttribute('emp_id')))!="+") ? base64_decode(urldecode($req->getAttribute('emp_id'))) : AuthService::getUserIdFromToken($req, $res);
+    
+        $emp_id = (!is_null($req->getAttribute('emp_id'))) ? strip_tags($req->getAttribute('emp_id')) : AuthService::getUserIdFromToken($req, $res);
 
         if((is_numeric($emp_id))){
             $dtfrom = (strip_tags($req->getAttribute('dtfrom'))!=" ") ? date('Y-m-d', strip_tags($req->getAttribute('dtfrom'))) : strtotime(AttendanceDao::getMinPunch($emp_id));

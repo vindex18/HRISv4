@@ -1,0 +1,1 @@
+IF(MAX(a.datetime), DATE_FORMAT(a.datetime, '%b %e, %Y %r'), NULL) as max

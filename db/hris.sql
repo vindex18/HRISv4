@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 27, 2018 at 02:33 PM
+-- Generation Time: Jun 28, 2018 at 05:55 AM
 -- Server version: 10.1.30-MariaDB
 -- PHP Version: 7.2.2
 
@@ -58,10 +58,10 @@ CREATE TABLE `attendance` (
 --
 
 INSERT INTO `attendance` (`id`, `type_id`, `datetime`, `emp_id`, `created_at`, `updated_at`, `for_change`) VALUES
-(300, 1, '2018-06-27 14:32:00', 1, '2018-06-27 14:32:00', '2018-06-27 14:32:00', 0),
-(301, 4, '2018-06-27 14:33:08', 1, '2018-06-27 14:33:08', '2018-06-27 14:33:08', 0),
-(327, 1, '2018-06-27 18:53:08', 3, '2018-06-27 18:53:08', '2018-06-27 18:53:08', 0),
-(328, 2, '2018-06-27 19:17:58', 3, '2018-06-27 19:17:58', '2018-06-27 19:17:58', 0);
+(372, 1, '2018-06-28 11:53:58', 1, '2018-06-28 11:53:58', '2018-06-28 11:53:58', 0),
+(373, 4, '2018-06-28 11:54:01', 1, '2018-06-28 11:54:01', '2018-06-28 11:54:01', 0),
+(374, 1, '2018-06-28 11:54:25', 1, '2018-06-28 11:54:25', '2018-06-28 11:54:25', 0),
+(375, 2, '2018-06-28 11:54:27', 1, '2018-06-28 11:54:27', '2018-06-28 11:54:27', 0);
 
 -- --------------------------------------------------------
 
@@ -7858,7 +7858,7 @@ ALTER TABLE `employees_img`
 -- AUTO_INCREMENT for table `attendance`
 --
 ALTER TABLE `attendance`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=329;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=376;
 
 --
 -- AUTO_INCREMENT for table `attendancetype`
@@ -7870,7 +7870,7 @@ ALTER TABLE `attendancetype`
 -- AUTO_INCREMENT for table `employees`
 --
 ALTER TABLE `employees`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `employees_img`

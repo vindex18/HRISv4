@@ -2,6 +2,7 @@
 
 namespace App\Modules\Attendance\Dao;
 use App\Modules\Attendance\Models\AttendanceModel;
+use App\Modules\Employee\Dao\EmployeeDao;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Capsule\Manager as DB;
 use \DateTime;
@@ -121,7 +122,11 @@ class AttendanceDao {
         $last_punch = AttendanceDao::getLastPunch($emp_id);
         $last_punchdt = (empty($last_punch)) ? null : $last_punch[0]->datetime;
         $last_punch = (empty($last_punch)) ? null : $last_punch[0]->type_id;
-    
+
+        // echo "FIRST LAST PUNCH";
+        // var_dump($last_punch);
+        // echo "LAST PUNCH";        
+        // die();
         $qry = false;
         $arr = array('datetime' => $datetime,
                      'emp_id' => $emp_id,
@@ -185,17 +190,21 @@ class AttendanceDao {
             return array('msg' => 'Datetime Range Invalid!', 'log' => $log, 'status' => false, 'last_input' => $last_punch );
         }
         $log = AttendanceDao::getTimeLogStatus($emp_id);
+        // var_dump($log); die();
         return ($qry) ? array('msg' => $msg, 'status' => true, 'log' => $log,) : array('msg' => $msg, 'status' => false, 'log' => $log, 'last_input' => $last_punch);
     }
 
     function getLastPunch($emp_id){
-         return DB::table('attendance')
-                    ->select('datetime', 'type_id')
+        // DB::connection()->enableQueryLog();
+        return DB::table('attendance')
+                    //->select(DB::raw('IF(MAX(datetime), DATE_FORMAT(datetime, "%b %e, %Y %r"), NULL) as datetime'), 'type_id')
+                    ->select(DB::raw('DATE_FORMAT(datetime, "%b %e, %Y %r") as datetime'), 'type_id')
                     ->where('emp_id', $emp_id)
                     ->orderBy('datetime', 'DESC')
                     ->take(1)
                     ->get()
                     ->toArray();
+        // $queries = DB::getQueryLog(); var_dump($queries); die("End of Query");
     }
 
     function getDistinctDateAttendanceOfEmployee($from, $to, $emp_id){
@@ -345,32 +354,32 @@ class AttendanceDao {
         //DB::connection()->enableQueryLog();
         $min_time_in = AttendanceDao::getMinTimeIn($from, $to, $emp_id); //Getting Proper Range
         $max_time_in = AttendanceDao::getMaxTimeOut($from, $to, $emp_id);
-
+       
         $data =  DB::table('attendance as a')
-                    ->select('a.datetime', 'a.type_id', 't.code', 't.description', 'a.for_change')
+                    ->select('a.datetime', 'a.type_id', 't.code', 't.description', 'a.for_change', 'a.id')
                     ->leftJoin('attendancetype as t', 'a.type_id', '=', 't.id')
                     ->where('emp_id', $emp_id)
                     ->whereBetween('datetime', [$min_time_in[0]->datetime, $max_time_in])
                     ->orderBy('datetime', 'DESC')
-                    ->get()
-                    ->toArray();
+                    ->get();
         
         $newdata = array();
-        
-        for($c=0;$c<count($data);$c++){
-            $newdata[$c] = array('datetime' => date('M d, Y g:i:s A', strtotime($data[$c]->datetime)), 
-                                 'type_id' => $data[$c]->type_id,
-                                 'code' => $data[$c]->code,
-                                 'description' => $data[$c]->description,
-                                 'for_change' => ($data[$c]->for_change) ? "YES" : "NO",
-                                 'id' => $c+1,
-                            );
+        $emp_rec = EmployeeDao::getEmployee($emp_id);
+        $newdata['userinfo'] = array('name' => $emp_rec['last_name'].", ".$emp_rec['first_name'], 'position' => $emp_rec['pos_title']);
+        $newdata['msg'] = [];
+        $c = 1;
+        foreach($data as $k){
+            $newdata['msg'][] = array('datetime' => date('M d, Y g:i:s A', strtotime($k->datetime)), 
+                                        'type_id' => $k->type_id,
+                                        'code' => $k->code,
+                                        'description' => $k->description,
+                                        'for_change' => ($k->for_change) ? "YES" : "NO",
+                                        'seq' => $c++,
+                                        'id' => $k->id
+                                 );
         }
 
-        // var_dump($newdata); die();
-
         return $newdata;
-        //$queries = DB::getQueryLog(); var_dump($queries); die("End of Query");
     }
 
     function deleteEmployeeAttendance($att_id){
@@ -387,7 +396,7 @@ class AttendanceDao {
 
         echo "MIN-TIME-IN: ".date('M d, Y g:i A', strtotime($min_time_in[0]->datetime))." ==== LAST-POSSIBLE: ".date('M d, Y g:i A', strtotime($max_time_in))."<br>";
 
-        DB::connection()->enableQueryLog();
+        // DB::connection()->enableQueryLog();
         $data = DB::table('employees AS e')
                     ->select('e.first_name', 'e.last_name', 'e.is_active', 'e.pos_title', 'a.datetime', 'a.emp_id', 't.code', 't.description')
                     ->leftJoin('attendance as a' , 'e.id', '=', 'a.emp_id')
@@ -590,12 +599,14 @@ class AttendanceDao {
     }
 
     function getAllEmployeeAttendance($from, $to, $accstat){
-        DB::connection()->enableQueryLog();
+        // DB::connection()->enableQueryLog();
   
-        return DB::select(DB::raw("SELECT MAX(a.datetime) as max, e.first_name, e.last_name, e.is_active, e.pos_title, a.emp_id, t.code, e.id,                           t.description FROM employees e 
+        return DB::select(DB::raw("SELECT IF(MAX(a.datetime), DATE_FORMAT(a.datetime, '%b %e, %Y %r'), NULL) as max, e.first_name, e.last_name, e.is_active, e.pos_title, a.emp_id, t.code, e.id, t.description FROM employees e 
                         LEFT JOIN attendance a ON e.id = a.emp_id AND a.datetime BETWEEN '$from' AND '$to' 
                         LEFT JOIN attendancetype t ON a.type_id = t.id
                         WHERE $accstat GROUP BY e.id ORDER BY e.last_name"));
+
+        //  $queries = DB::getQueryLog(); var_dump($queries); die("End of Query");
     }
 
     function getMinimumDTOfEmployeeAttendance(){
@@ -624,7 +635,7 @@ class AttendanceDao {
         return array('status' => true, 
                      'log' => array(
                     'last_punch' => $lastpunch,
-                    'lastpunch_dt' => date('M d, Y g:i:s A', strtotime($lastpunch_dt)),
+                    'lastpunch_dt' => $lastpunch_dt,
                     'lastpunch_desc' => AttendanceDao::getPunchDescription($lastpunch),
                     'next_punch' => $next_punch,
                     'nextpunch_desc' => $nextpunch_dt
